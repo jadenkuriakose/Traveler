@@ -1,3 +1,4 @@
+
 let apiData = null;
 
 window.onload = function() {
@@ -6,9 +7,7 @@ window.onload = function() {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('search-input');
     const searchButton = document.getElementById('search-button');
-
     if (searchButton) {
         searchButton.addEventListener('click', performSearch);
     }
@@ -26,27 +25,15 @@ function fetchAPIData() {
 }
 
 function loadPage(pageName) {
-    let content = '';
-
-    if (pageName === 'beaches') {
-        content = generateBeachesHTML();
-    } else if (pageName === 'temples') {
-        content = generateTemplesHTML();
-    } else {
-        fetch(`${pageName}.html`)
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('content').innerHTML = data;
-            })
-            .catch(error => console.error('Error:', error));
-        return; 
-    }
-
-    document.getElementById('content').innerHTML = content;
-
-    if (pageName === 'beaches' || pageName === 'temples') {
-        populateDestinations(pageName);
-    }
+    fetch(`${pageName}.html`)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('content').innerHTML = data;
+            if (pageName === 'beaches' || pageName === 'temples') {
+                populateDestinations(pageName);
+            }
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 function performSearch() {
